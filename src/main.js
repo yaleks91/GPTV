@@ -3,8 +3,10 @@ import { copyFileSync } from "fs";
 import { Telegraf } from "telegraf";
 import { message } from "telegraf/filters";
 import { downloadOgg, toMp3 } from "./ogg.js";
+import config from "config";
+import openai from './speechToText.js';
 
-const bot = new Telegraf('XXX');
+const bot = new Telegraf(config.get("TELEGRAM_TOKEN"));
 
 
 bot.command('start', async (ctx) => {
@@ -23,7 +25,9 @@ bot.on(message('voice'), async (ctx) => {
         console.log(userId)
         const oggPath = await downloadOgg(link.href, userId);
         const mp3Path = await toMp3(oggPath, userId);
-        await ctx.reply(link.href);
+
+        const text = await openai.transcription(mp3Path);
+        await ctx.reply(text);
     } catch (err) {
         console.info(err); 
     }

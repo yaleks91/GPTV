@@ -1,1 +1,3 @@
 node_modules/
+media/[0-9]*
+config/default.json
