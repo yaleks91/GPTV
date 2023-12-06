@@ -36,7 +36,7 @@ export async function toMp3(input, output) {
             .inputOption('-t 30')
             .output(outputPath)
             .on('end', () =>  {
-                removeFile(input);
+                //removeFile(input);
                 resolve(outputPath);
             })
             .on('error', (err) => reject(err))
@@ -47,10 +47,10 @@ export async function toMp3(input, output) {
     };
 }
 
-export async function removeFile(path) {
-    try {
-        await unlink(path);
-    } catch(e){
-        console.log('Error when removing file', e);
-    }
-}
+// export async function removeFile(path) {
+//     try {
+//         await unlink(path);
+//     } catch(e){
+//         console.log('Error when removing file', e);
+//     }
+// }
